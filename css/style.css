@@ -1,0 +1,112 @@
+/* body{
+  background-attachment: fixed;
+  background: url(../img/bg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;  
+} */
+
+.radius{
+	border-radius: 20px !important;
+}
+
+#descriptionBookAdd{
+  resize: vertical;  
+}
+.txta{
+  width: 100%;
+  max-width: 500px;
+  min-height: 100px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+#imageBookPreviewAdd{
+  object-fit: contain;
+}
+
+.flexImage{
+  display: flex;
+  justify-content: space-around;  
+}
+
+.responsiveImage{
+  object-fit: contain;
+}
+
+.BookPreview{
+  object-fit: contain;
+}
+
+
+
+.containerProfile{
+  width: 50%;  
+  border: 1px solid red;
+}
+
+.centerProfile{
+  display: flex;
+  justify-content: center;  
+  width: 50%;
+  border: 1px solid blue !important;
+}
+
+.profileImage{
+  width: 200px !important;
+  height: 200px !important;
+  margin-right: 206px !important;
+
+}
+.own{
+display: block;
+position: absolute;
+left: 50%;
+transform: translateY(-50%) translateX(-50%);
+width: 30% !important;
+
+border: 1px solid aqua;
+}
+
+
+.tabs .tab a.active {
+background-color: gray !important;  
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+  background-color:white !important;
+} 
+
+.image-radius{
+  border-radius: 20px 20px 0px 0px !important;
+}
+
+.body-card-radius{
+  border-radius: 20px !important;  
+}
+
+.cardProfile{
+  border: 1px solid greenyellow;    
+}
+
+.contenedor{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.texto-encima{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.centrado{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+

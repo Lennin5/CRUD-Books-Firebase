@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="title">ClouDrop</title>
+    <!-- Materialize CDN -->
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
+  <link href="css/style.css" rel="stylesheet">   
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- firebase CDN -->  
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>   
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-storage.js"></script>
+  
+</head>
+<body>
+
+    <nav class="grey darken-2">
+    <div class="nav-wrapper">                  
+      <a href="#" class="brand-logo right" id="User">Logo</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">          
+        <li><a href="./Logged.html">Inicio</a></li>
+        <li><a href="./tipoLibro.html">Tipo Libro</a></li>
+        <li><a href="./libro.html">Libro</a></li>
+        <li><a href="./misPrestamos.html">Mis Prestamos</a></li>
+        <li><a href="#" onclick="LogOut()">Salir</a></li>
+        <li><img src="https://www.stickpng.com/assets/images/585e4beacb11b227491c3399.png" id="ProfileUserImage" width="50" height="50""></li>
+      </ul>
+    </div>
+  </nav>  
+<!-- FASE BETA DE UN BUSCADOR -->
+<!-- <input type="text" id="palabra">
+<button onclick="BuscarRegistro()">Buscar</button> -->
+
+<p id="uid"></p>
+<br>
+  <div class="">
+  <a class="waves-effect waves-light btn modal-trigger grey darken-2" href="#modal1">
+    <i class="material-icons left">add</i>Agregar</a>
+      <br>
+        <div id="divTipoLibro" class="container"></div>
+  </div>
+  <!-- Modal Agregar Libro -->
+  <div id="modal1" class="modal modal-fixed-footer radius">
+    <div class="modal-content" id="modalScrollAdd">
+      <h4>Agregar Libro</h4>
+ <div class="container" id="imageBackground">
+   <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">vpn_key</i>
+          <input type="text" id="idBook" disabled>
+          <label>ID</label>
+        </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">book</i>
+          <input type="text" id="nameBookAdd" placeholder="Nombre De Libro">
+          <!-- <label>Nombre De Libro</label> -->
+        </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">description</i>          
+          <textarea  id="descriptionBookAdd" class="materialize-textarea" placeholder="Descripción Del Libro"></textarea>        
+        </div>                                          
+          <center>
+            <p style="color: #9E9E9E;">Portada De Libro</p>            
+          </center>              
+          <!-- Header de Portada Libro -->
+            <div class="card-tabs grey darken-2" style="border-radius: 20px 20px 0px 0px;">
+              <ul class="tabs tabs-fixed-width tabs-transparent">
+                <li class="tab"><a class="active" id="tabActiveAdd" href="#testWithImage" style="border-radius: 20px 0px 0px 0px;">
+                  <i class="material-icons prefix">image</i></a></li>
+                <li class="tab"><a href="#testWithoutImage" onclick="NotImage()" style="border-radius: 0px 20px 0px 0px;">
+                  <i class="material-icons prefix">not_interested</i></a></li>      
+              </ul>
+            </div>  
+            <!-- Body de Portada Libro -->
+            <div class="card-content grey lighten-1" style="border-radius: 0px 0px 20px 20px;">
+              <!-- Opcion agregar libro -->
+              <div id="testWithImage" class="center-align">    
+                <br>            
+                <img src="file:///C:/xampp/htdocs/login-firebase/tipoLibro.html" id="imageBookPreviewAdd" width="200" height="200" class="BookPreview"/>                      
+                <div class="flexImage">
+                  <div>              
+                    <input type="file" accept="image/*" id="imageBookAdd" onchange="UploadImageFromAddBook(this)">   
+                  </div>
+                </div>  
+              </div>
+              <!-- Opcion NO agregar libro -->
+              <div id="testWithoutImage">                
+                   <br>
+                <center>
+                  <img src="img/SinImagen.jpg" width="200" height="201" class="BookPreview"/> 
+                </center>        
+                <br>        
+              </div>                  
+            </div>            
+       <!-- <button onclick="Hola()">Click Me!</button>
+      <script>
+        function Hola(){
+        obFoto = document.getElementById("imageBookPreviewAdd").src;    
+        alert(obFoto);
+        }    
+      </script>   -->            
+        </div>    
+      </div>
+      <a class="waves-effect waves-light btn grey darken-2 radius" onclick="AddBook()">
+        <i class="material-icons left">add</i>Agregar Libro</a>
+    </div>
+  </div>        
+</div>          
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-gray btn-flat" id="CancelarAdd" onclick="CardAddReset()">Cancelar</a>
+    </div>
+  </div>
+
+         <!-- Modal Editar Libro -->
+  <div id="modalEdit" class="modal modal-fixed-footer radius">
+    <div class="modal-content">
+      <h4>Editar Libro</h4>
+ <div class="container">
+   <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">vpn_key</i>
+          <input type="text" id="idBookUpdate" disabled>
+          <label></label>
+        </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">book</i>
+          <input type="text" id="nameBookUpdate">
+          <label></label>
+        </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">description</i>
+          <!-- <input type="text" id="descriptionBookEdit"> -->
+          <textarea  id="descriptionBookUpdate" class="txta materialize-textarea" data-length="120"></textarea>
+          <label></label>
+        </div>
+
+        <script>
+          function Alert(){
+            alert("Hola");
+          }
+        </script>
+
+        <center>
+          <p style="color: #9E9E9E;">Portada De Libro</p>            
+        </center>              
+        <!-- Header de Portada Libro -->
+          <div class="card-tabs grey darken-2" style="border-radius: 20px 20px 0px 0px;">
+            <ul class="tabs tabs-fixed-width tabs-transparent">
+              <li class="tab"><a class="active" href="#testWithImageUpdate" style="border-radius: 20px 0px 0px 0px;">
+                <i class="material-icons prefix">image</i></a></li>
+              <li class="tab"><a href="#testWithoutImageUpdate" onclick="NotImage()" style="border-radius: 0px 20px 0px 0px;">
+                <i class="material-icons prefix">not_interested</i></a></li>      
+            </ul>
+          </div>  
+          <!-- Body de Portada Libro -->
+          <div class="card-content grey lighten-1" style="border-radius: 0px 0px 20px 20px;">
+            <!-- Opcion agregar libro -->
+            <div id="testWithImageUpdate" class="center-align">    
+              <br>            
+              <img src="file:///C:/xampp/htdocs/login-firebase/tipoLibro.html" id="imageBookPreviewUpdate" width="200" height="200" class="BookPreview"/>                      
+              <div class="flexImage">
+                <div>              
+                  <input type="file" accept="image/*" id="imageBookUpdate" onchange="UploadImageFromUpdateBook(this)">  
+                </div>
+              </div>  
+            </div>
+            <!-- Opcion NO agregar libro -->
+            <div id="testWithoutImageUpdate">                
+                 <br>
+              <center>
+                <img src="img/SinImagen.jpg" width="200" height="201" class="BookPreview"/> 
+              </center>        
+              <br>        
+            </div>                  
+          </div> 
+
+
+
+
+        <label style="color: white;">Imagen De Libro</label>
+        <img id="imageBookPreviewUpdate" width="200" height="200" class="BookPreview" />                      
+        <div class="flexImage">
+          <div>
+            <i class="material-icons prefix">image</i>
+          </div>
+          <div>              
+            <input type="file" accept="image/*" id="imageBookUpdate" onchange="UploadImageFromUpdateBook(this)">   
+          </div>
+        </div>    
+
+
+        <p id="nameImageToDeleteBeforeUpdateBook"></p>
+        <b><p id="URLActualBook"></p></b>
+        <p id="URLFixedImageToCompareWithActualBook"></p>
+      </div>
+      <!-- <button onclick="Hola()">Click Me!</button>
+      <script>
+        function Hola(){
+        obFoto = document.getElementById("imageBookPreviewUpdate").src;    
+        alert(obFoto);
+        }    
+      </script> -->
+      <a class="waves-effect waves-light btn grey darken-2" onclick="UpdateBook()">
+        <i class="material-icons left">done</i>Guardar Cambios</a>        
+    </div>
+  </div>        
+  </div>      
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-gray btn-flat" id="CancelarUpdate">Cancelar</a>
+    </div>
+  </div>  
+  
+  <!-- Modal Eliminar Libro -->
+  <div id="modalAntiDelete" class="modal radius">
+    <div class="modal-content">
+      <h5>¿Seguro que deseas Eliminar este libro?</h5>
+      <p>Esta accion no se puede deshacer</p>
+ <div class="container">
+   <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">vpn_key</i>
+          <input type="text" id="idBookDelete" disabled>
+          <p id="nameImageToDeleteBook"></p>
+          <label></label>
+        </div>      
+      </div>
+      <center>
+      <div>
+      <a class="waves-effect waves-light btn grey darken-2" onclick="Delete()">
+        <i class="material-icons left">delete</i>Eliminar</a>        
+      </div>
+</center>
+    </div>
+  </div>        
+  </div>      
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-gray btn-flat" id="CancelarDelete">Cancelar</a>
+    </div>
+  </div>  
+<script>
+    // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAvJcXJAvbIdc0KfJLH3CyQ0gvnP1sHKF0",
+    authDomain: "cld-beta.firebaseapp.com",
+    databaseURL: "https://cld-beta.firebaseio.com",
+    projectId: "cld-beta",
+    storageBucket: "cld-beta.appspot.com",
+    messagingSenderId: "643649556510",
+    appId: "1:643649556510:web:7388c54638e3321944de0f"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    console.log("Existe Usuario Activo");
+    document.getElementById('uid').innerHTML = uid;
+    
+  //Mostrar Registros De Los Libros
+  firebase.firestore().collection(uid).orderBy("timestamp", "desc")
+  .onSnapshot(res=>{
+    listarTipoLibros(res);
+  });  
+  function listarTipoLibros(res){    
+    var contenido = "<table>"
+            contenido+="<thead>"
+          contenido+="<tr>"
+              
+              contenido+="<th>Portada</th>"
+              contenido+="<th>Nombre</th>"
+              contenido+="<th>Descripcion</th>"
+              contenido+="<th>Acciones</th>"
+          contenido+="</tr>"
+        contenido+="</thead>"
+
+        contenido+="<tbody>"
+        res.forEach(rpta=>{
+          var fila=rpta.data();
+          contenido+="<tr>"
+            
+            contenido+="<td><img src='"+fila.photoURL+"' width='200' height='200' class='responsiveImage materialboxed radius'/></td>"
+            contenido+="<td>"+fila.name+"</td>"            
+            contenido+="<td>"+fila.description+"</td>"
+            contenido+="<td>"
+            contenido+="<a class='waves-effect waves-light btn grey darken-2 modal-trigger' href='#modalEdit' onclick='Edit(\""+rpta.id+"\")'>"
+            contenido+="<i class='material-icons'>border_color</i></a>"
+            contenido+="<a class='waves-effect waves-light btn grey darken-2 modal-trigger' href='#modalAntiDelete' onclick='AntiDelete(\""+rpta.id+"\")'>"
+            contenido+="<i class='material-icons'>delete</i></a>"
+            contenido+="</td>"
+          contenido+="</tr>"
+          contenido+="<tr>"         
+        });
+        contenido+="</tbody>"
+      contenido+="</table>"    
+    document.getElementById("divTipoLibro").innerHTML = contenido;
+  }
+
+  } else {
+    window.location='../login-firebase/index.html';    
+    console.log("No Existe Usuario Activo");
+  }
+
+  //Traer Datos Del Usuario
+  var docRef = firebase.firestore().collection(uid).doc("UserData");
+docRef.get().then(function(doc) {
+if (doc.exists) {
+    var user=doc.data();    
+    document.getElementById('User').innerHTML = user.displayName;
+    document.getElementById('ProfileUserImage').src = user.photoURL
+} else {
+    // doc.data() will be undefined in this case
+    console.log("El documento no existe!");
+}
+}).catch(function(error) {
+console.log("Error getting document:", error);
+});
+
+  });
+
+
+
+
+</script> 
+  <script src="js/app.js"></script>
+  <!-- Materialize -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
+  <script src="js/init.js"></script>
+
+  <script src="js/tipoLibro.js"></script>
+</body>
+</html>

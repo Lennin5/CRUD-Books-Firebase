@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>ClouDrop</title>
+    <!-- Materialize CDN -->
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- firebase CDN -->  
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+</head>
+<body>
+  <p>ClouDrop Cargando...</p> 
+  
+<script>
+  window.onload=function(){
+    // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAvJcXJAvbIdc0KfJLH3CyQ0gvnP1sHKF0",
+    authDomain: "cld-beta.firebaseapp.com",
+    databaseURL: "https://cld-beta.firebaseio.com",
+    projectId: "cld-beta",
+    storageBucket: "cld-beta.appspot.com",
+    messagingSenderId: "643649556510",
+    appId: "1:643649556510:web:7388c54638e3321944de0f"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    window.location='../login-firebase/Logged.html'; 
+
+  } else {
+    window.location='../login-firebase/NoLogged.html'; 
+  }
+  });
+
+}
+</script>   
+</body>
+</html> 
