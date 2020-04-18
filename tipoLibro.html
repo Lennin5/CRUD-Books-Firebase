@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title id="title">ClouDrop</title>
@@ -26,7 +27,7 @@
         <li><a href="./libro.html">Libro</a></li>
         <li><a href="./misPrestamos.html">Mis Prestamos</a></li>
         <li><a href="#" onclick="LogOut()">Salir</a></li>
-        <li><img src="https://www.stickpng.com/assets/images/585e4beacb11b227491c3399.png" id="ProfileUserImage" width="50" height="50""></li>
+        <li><img src="https://www.stickpng.com/assets/images/585e4beacb11b227491c3399.png" id="ProfileUserImage" width="50" height="50"></li>
       </ul>
     </div>
   </nav>  
@@ -97,13 +98,13 @@
                 <br>        
               </div>                  
             </div>            
-       <!-- <button onclick="Hola()">Click Me!</button>
+       <button onclick="Hola()">Click Me!</button>
       <script>
         function Hola(){
-        obFoto = document.getElementById("imageBookPreviewAdd").src;    
+        obFoto = document.getElementById("descriptionBookAdd").style.height;    
         alert(obFoto);
         }    
-      </script>   -->            
+      </script>              
         </div>    
       </div>
       <a class="waves-effect waves-light btn grey darken-2 radius" onclick="AddBook()">
@@ -137,7 +138,7 @@
         <div class="input-field col s12">
           <i class="material-icons prefix">description</i>
           <!-- <input type="text" id="descriptionBookEdit"> -->
-          <textarea  id="descriptionBookUpdate" class="txta materialize-textarea" data-length="120"></textarea>
+          <textarea  id="descriptionBookUpdate" class="txta materialize-textarea"></textarea>
           <label></label>
         </div>
 
@@ -300,8 +301,10 @@
             contenido+="<td>"+fila.name+"</td>"            
             contenido+="<td>"+fila.description+"</td>"
             contenido+="<td>"
+            //recordar que en las funciones le pasamos el ID para editar o eliminar registros
             contenido+="<a class='waves-effect waves-light btn grey darken-2 modal-trigger' href='#modalEdit' onclick='Edit(\""+rpta.id+"\")'>"
             contenido+="<i class='material-icons'>border_color</i></a>"
+            contenido+="<br>"
             contenido+="<a class='waves-effect waves-light btn grey darken-2 modal-trigger' href='#modalAntiDelete' onclick='AntiDelete(\""+rpta.id+"\")'>"
             contenido+="<i class='material-icons'>delete</i></a>"
             contenido+="</td>"
