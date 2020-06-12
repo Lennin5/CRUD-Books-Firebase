@@ -36,10 +36,17 @@
     var isAnonymous = user.isAnonymous;
     var uid = user.uid;
     var providerData = user.providerData;
-    window.location='../login-firebase/Logged.html'; 
+
+    setTimeout(AutoLogin, 2000);
+    function AutoLogin(){
+        window.location.href="./Logged.html"; 
+    }    
 
   } else {
-    window.location='../login-firebase/NoLogged.html'; 
+    setTimeout(AutoNoLogin, 2000);   
+    function AutoNoLogin(){
+        window.location.href="./NoLogged.html"; 
+    }    
   }
   });
 

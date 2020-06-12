@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="title">ClouDrop</title>
+    <!-- Materialize CDN -->
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- firebase CDN -->  
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>  	
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-storage.js"></script>
+  
+</head>
+<body>
+
+
+
+<br>
+
+<div class="row">
+
+  <div class="col s1 m6 l4">
+    <div class="card">
+      <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="img/DefaultCover.jpg">
+      </div>
+      <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+        <p><a href="#">This is a link</a></p>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+      </div>
+    </div>    
+  </div>
+
+  <div class="col s1 m6 l4">
+    <div class="card">
+      <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="img/DefaultCover.jpg">
+      </div>
+      <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+        <p><a href="#">This is a link</a></p>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+      </div>
+    </div>    
+  </div>
+
+  <div class="col s1 m6 l4">
+    <div class="card">
+      <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="img/DefaultCover.jpg">
+      </div>
+      <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+        <p><a href="#">This is a link</a></p>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+      </div>
+    </div>    
+  </div>
+
+</div>         
+
+
+                      
+
+      </div>
+    </div>
+
+  </div>
+</div>  
+
+
+
+<script>
+	  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAvJcXJAvbIdc0KfJLH3CyQ0gvnP1sHKF0",
+    authDomain: "cld-beta.firebaseapp.com",
+    databaseURL: "https://cld-beta.firebaseio.com",
+    projectId: "cld-beta",
+    storageBucket: "cld-beta.appspot.com",
+    messagingSenderId: "643649556510",
+    appId: "1:643649556510:web:7388c54638e3321944de0f"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    console.log("Existe Usuario Activo");    
+
+  } else {
+  	window.location='../login-firebase/index.html';
+    console.log("No Existe Usuario Activo");
+  }
+
+  //Traer Datos Del Usuario
+var docRef = firebase.firestore().collection(uid).doc("UserData");
+docRef.get().then(function(doc) {
+if (doc.exists) {
+    var user=doc.data();    
+    // document.getElementById('uid').innerHTML = user.uid;
+    document.getElementById('User').innerHTML = user.displayName;    
+    document.getElementById('ProfileUserImage').src = user.photoURL
+} else {
+    // doc.data() will be undefined in this case
+    console.log("El documento no existe!");
+}
+}).catch(function(error) {
+console.log("Error getting document:", error);
+});
+
+  });
+
+
+</script>	
+  <script src="js/app.js"></script>
+  <!-- Materialize -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
+  <script src="js/init.js"></script>
+</body>
+</html>
+
+

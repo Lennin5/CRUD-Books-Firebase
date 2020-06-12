@@ -1,3 +1,49 @@
+function listarTipoLibros(res){    
+  var contenido = "<table>"
+          contenido+="<thead>"
+        contenido+="<tr>"
+            
+            contenido+="<th>Portada</th>"          
+            contenido+="<th>Nombre</th>"
+            contenido+="<th>Descripcion</th>"
+            contenido+="<th>Acciones</th>"
+        contenido+="</tr>"
+      contenido+="</thead>"
+
+      contenido+="<tbody>"
+      res.forEach(rpta=>{
+        var fila=rpta.data();
+
+
+        contenido+="<tr>"
+          
+          contenido+="<td><img src='"+fila.photoURL+"' width='200' height='200' class='responsiveImage materialboxed radius'/></td>"
+          contenido+="<td>"+fila.name+"</td>"            
+          contenido+="<td>"+fila.description+"</td>"
+          contenido+="<td>"
+          //recordar que en las funciones le pasamos el ID para editar o eliminar registros
+          contenido+="<a class='waves-effect waves-light btn modal-trigger btn-actions-margin-bottom btn-action' href='#modalEdit' onclick='getDataBook(\""+rpta.id+"\")'>"
+          contenido+="<i class='material-icons'>border_color</i></a>"            
+          contenido+="<a class='waves-effect waves-light btn modal-trigger btn-actions-margin-bottom btn-action' href='#modalAntiDelete' onclick='AntiDelete(\""+rpta.id+"\")'>"
+          contenido+="<i class='material-icons'>delete</i></a>"
+          if(fila.favorite=='Si'){
+          contenido+="<a class='waves-effect waves-light btn btn-action' onclick='AddToFavorite(\""+rpta.id+"\")'>"
+          contenido+="<i class='material-icons'>favorite</i></a>"  
+          }else{
+          contenido+="<a class='waves-effect waves-light btn btn-action' onclick='AddToFavorite(\""+rpta.id+"\")'>"
+          contenido+="<i class='small material-icons'>favorite_border</i></a>"  
+          }          
+          contenido+="</td>"
+        contenido+="</tr>"
+        contenido+="<tr>"         
+      });
+      contenido+="</tbody>"
+    contenido+="</table>"          
+  document.getElementById("divTipoLibro").innerHTML = contenido;
+}
+
+
+
 //Funcion preview de imagen para agregar libro
 function UploadImageFromAddBook(e){
   var file = e.files[0];
@@ -9,7 +55,7 @@ function UploadImageFromAddBook(e){
   reader.readAsDataURL(file)
 }
 //Funcion No Imagen: pone vacío el SRC del preview de la imagen de libro y VALUE del input de imagen
-function NotImage(){
+function NotImageAdd(){
   document.getElementById("imageBookPreviewAdd").src = "";       
   document.getElementById("imageBookAdd").value = "";       
 }
@@ -20,8 +66,7 @@ function AddBook(){
   description = document.getElementById("descriptionBookAdd").value;
   descriptionHeight = document.getElementById("descriptionBookAdd").style.height;  
   imageBookPreviewAdd = document.getElementById("imageBookPreviewAdd").src;
-  image = document.getElementById("imageBookAdd").files[0];     
-  notImageURL = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/Users%2FJiJcUrMlJjYgJH7SN0sYdc2ByaP2%2FBookCovers%2FDefaultCover.jpg?alt=media&token=22df8873-ec96-40f7-993f-582e8818e45a";
+  image = document.getElementById("imageBookAdd").files[0];       
   date = new Date();  
 
   DefaultCover0 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover0.jpg?alt=media&token=143dc0ef-d043-4167-a5eb-e6d412a2778c";
@@ -47,6 +92,7 @@ function AddBook(){
   //Si el usuario no quiere poner una imagen
   if(imageBookPreviewAdd == "" || imageBookPreviewAdd == "file:///C:/xampp/htdocs/login-firebase/tipoLibro.html"){           
     num = Math.floor(Math.random() * 10)
+
     if (num == 0) {
       DefaultCover = DefaultCover0;
       }else
@@ -85,6 +131,7 @@ function AddBook(){
       description: description,     
       descriptionHeight: descriptionHeight,
       timestamp:firebase.firestore.FieldValue.serverTimestamp(), 
+      favorite: "No",
       photoURL: DefaultCover,
       photoName: "DefaultCover"+num+".jpg"           
     })
@@ -104,7 +151,8 @@ function AddBook(){
     name: name,
     description: description,            
     descriptionHeight: descriptionHeight,
-    timestamp:firebase.firestore.FieldValue.serverTimestamp()
+    timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+    favorite: "No",
   })
   .then(res=>{
     var id = res.id;      
@@ -213,26 +261,28 @@ function UploadImageFromUpdateBook(e){
   reader.readAsDataURL(file)
 }
 
+
   //UPDATE: Traer datos para actualizar mediante id
-  function Edit(id){
+  function getDataBook(id){
     uid = document.getElementById("uid").innerHTML;
     firebase.firestore().collection(uid).doc(id).get()
     .then(res=>{
       DefaultCoverNative = "file:///C:/xampp/htdocs/login-firebase/tipoLibro.html";
+      userEdit = res.data();
       //Decision, si el usuario tiene imagen predeterminada que muestre la imagen GRIS y no de color
       //predenterminado que se le puso cuando se agrego en la portada aleatoria al agregar
-      userEdit = res.data();
-                if(userEdit.photoName == "DefaultCover0.jpg" ||
-                   userEdit.photoName == "DefaultCover1.jpg" || 
-                   userEdit.photoName == "DefaultCover2.jpg" || 
-                   userEdit.photoName == "DefaultCover3.jpg" || 
-                   userEdit.photoName == "DefaultCover4.jpg" || 
-                   userEdit.photoName == "DefaultCover5.jpg" || 
-                   userEdit.photoName == "DefaultCover6.jpg" || 
-                   userEdit.photoName == "DefaultCover7.jpg" || 
-                   userEdit.photoName == "DefaultCover8.jpg" || 
-                   userEdit.photoName == "DefaultCover9.jpg" || 
-                   userEdit.photoName == "DefaultCover10.jpg"){
+      if(userEdit.photoName == "DefaultCover0.jpg" ||
+          userEdit.photoName == "DefaultCover1.jpg" || 
+          userEdit.photoName == "DefaultCover2.jpg" || 
+          userEdit.photoName == "DefaultCover3.jpg" || 
+          userEdit.photoName == "DefaultCover4.jpg" || 
+          userEdit.photoName == "DefaultCover5.jpg" || 
+          userEdit.photoName == "DefaultCover6.jpg" || 
+          userEdit.photoName == "DefaultCover7.jpg" || 
+          userEdit.photoName == "DefaultCover8.jpg" || 
+          userEdit.photoName == "DefaultCover9.jpg" || 
+          userEdit.photoName == "DefaultCover10.jpg"){
+
         document.getElementById("idBookUpdate").value = id;
         document.getElementById("nameBookUpdate").value = userEdit.name;
         document.getElementById("descriptionBookUpdate").value = userEdit.description;
@@ -245,7 +295,9 @@ function UploadImageFromUpdateBook(e){
         //URL's de comparación
         document.getElementById("URLFixedImageToCompareWithActualBook").innerHTML = userEdit.photoURL;
         document.getElementById("URLActualBook").innerHTML = userEdit.photoURL;                
-        }else{
+        }else{ 
+          // SI NO TIENE IMAGEN PREDETERMINADA
+          
         document.getElementById("idBookUpdate").value = id;
         document.getElementById("nameBookUpdate").value = userEdit.name;
         document.getElementById("descriptionBookUpdate").value = userEdit.description;
@@ -263,42 +315,156 @@ function UploadImageFromUpdateBook(e){
         console.error("Error to get Data: ", error);
     })
   }
+  //Funcion No Imagen UPDATE: pone vacío el SRC del preview de la imagen de libro y VALUE del input de imagen
+function NotImageUpdate(){
+  document.getElementById("imageBookPreviewUpdate").src = "";       
+  document.getElementById("imageBookPreviewUpdate").value = "";       
+}
   //UPDATE - Editar registro de coleccion
   function UpdateBook(){
-  
+
     uid = document.getElementById("uid").innerHTML;
     id = document.getElementById("idBookUpdate").value;  
     name = document.getElementById("nameBookUpdate").value;
     description = document.getElementById("descriptionBookUpdate").value;
+    descriptionHeight = document.getElementById("descriptionBookUpdate").style.height;  
   
     //Comparación de URL's para ver si el usuario cambió la imagen
     URLActualBook = document.getElementById("URLActualBook").innerHTML;  
     URLFixedImageToCompareWithActualBook = document.getElementById("URLFixedImageToCompareWithActualBook").innerHTML;
     
+    imageBookPreviewUpdate = document.getElementById("imageBookPreviewUpdate").src;
     image = document.getElementById("imageBookUpdate").files[0];  
     
+    DefaultCover0 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover0.jpg?alt=media&token=143dc0ef-d043-4167-a5eb-e6d412a2778c";
+    DefaultCover1 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover1.jpg?alt=media&token=e859f7ee-5665-4481-a8ed-33a49c820534";
+    DefaultCover2 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover02.jpg?alt=media&token=973b0cda-e80b-4dcd-85ee-81b783d247ea";
+    DefaultCover3 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover3.jpg?alt=media&token=bf3ea453-0d5a-44dd-b7cb-3056ce67404b";
+    DefaultCover4 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover4.jpg?alt=media&token=48b9886e-5ae4-4d75-84f1-a8da4b24d451";
+    DefaultCover5 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover5.jpg?alt=media&token=451690f7-2fea-4470-ac8b-b9b5b809870b";
+    DefaultCover6 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover6.jpg?alt=media&token=444b2af8-cbbb-42dc-a843-20ab53b13517";
+    DefaultCover7 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover7.jpg?alt=media&token=199df651-58a4-4f7c-b706-0647a08c625e";
+    DefaultCover8 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover08.jpg?alt=media&token=4e0759dc-1ab5-496e-a669-67f46d6450ad";
+    DefaultCover9 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover9.jpg?alt=media&token=4dcd0e50-0431-4bac-9660-a8b428cdf429";
+    DefaultCover10 = "https://firebasestorage.googleapis.com/v0/b/cld-beta.appspot.com/o/DefaultCovers%2FDefaultCover10.jpg?alt=media&token=fe7f4ce2-2dfa-4714-ba8f-70b6cd0d8d96";    
+
+  //Si el usuario no llena los campos necesarios
+  if(name == ""){
+    M.toast({html: 'Por favor, asigna un nombre al libro!', classes: 'rounded'});
+  }else 
+  if(description == ""){
+    M.toast({html: 'Por favor, indica la descripción del libro!', classes: 'rounded'});
+  }else 
+  //Si el usuario no quiere poner una imagen
+  if(imageBookPreviewUpdate == "" || imageBookPreviewUpdate == "file:///C:/xampp/htdocs/login-firebase/tipoLibro.html"){           
+    num = Math.floor(Math.random() * 10)
+    if (num == 0) {
+      DefaultCover = DefaultCover0;
+      }else
+    if(num == 1){
+        DefaultCover = DefaultCover1;
+      }else
+    if(num == 2){
+        DefaultCover = DefaultCover2;
+      }else
+    if(num == 3){
+        DefaultCover = DefaultCover3;
+      }else
+    if(num == 4){
+        DefaultCover = DefaultCover4;
+      }else
+    if(num == 5){
+        DefaultCover = DefaultCover5;
+      }else
+    if(num == 6){
+        DefaultCover = DefaultCover6;
+      }else
+    if(num == 7){
+        DefaultCover = DefaultCover7;
+      }else
+    if(num == 8){
+        DefaultCover = DefaultCover8;
+      }else
+    if(num == 9){
+        DefaultCover = DefaultCover9;
+      }else
+    if(num == 10){
+        DefaultCover = DefaultCover10;
+      }
+    //Aquí hacemos una pequeña validacion de la imagen predeterminada:
+    //Si el usuario tiene imagen predeterminada y la deja tal cual la imagen predeterminada va a ser la mísma
+    //Y si anteriormente tenía una imagen y la pone predeterminada, seguirá su curso asignandole una predeterminada
+    nameImageToDeleteBeforeUpdateBook = document.getElementById("nameImageToDeleteBeforeUpdateBook").innerHTML;   
+     if(nameImageToDeleteBeforeUpdateBook == "DefaultCover0.jpg" ||
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover2.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover3.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover4.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover5.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover6.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover7.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover8.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover9.jpg" || 
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover10.jpg"){
+        nameImageToDeleteBeforeUpdateBook == "DefaultCover1.jpg" || 
+        firebase.firestore().collection(uid).doc(id).update({
+          name: name,
+          description: description,     
+          descriptionHeight: descriptionHeight,          
+          })
+          .then(res=>{                  
+            console.log("Se han actualizado los datos del libro");
+          }).catch(err=>{         
+            console.log(err);            
+        })
+      
+        CardUpdateReset();
+      
+        M.toast({html: 'Datos Actualizados Del Libro '+name, classes: 'rounded'});    
+      }else{
+        firebase.firestore().collection(uid).doc(id).update({
+          name: name,
+          description: description,     
+          descriptionHeight: descriptionHeight,      
+          photoURL: DefaultCover,
+          photoName: "DefaultCover"+num+".jpg"      
+          })
+          .then(res=>{                  
+            console.log("Se han actualizado los datos del libro");
+          }).catch(err=>{         
+            console.log(err);            
+        })
+      
+        CardUpdateReset();
+      
+        M.toast({html: 'Datos Actualizados Del Libro '+name, classes: 'rounded'});     
+        
+        DeleteImage();
+      }
+
+      
+  }else
+  // != significa que la imagen es diferente de vacío o sea "Si el usuario pone una imagen"
+  if(imageBookPreviewAdd != ""){
     if (URLFixedImageToCompareWithActualBook == URLActualBook) { 
       firebase.firestore().collection(uid).doc(id).update({
         name: name,
-        description: description
+        description: description,
+        descriptionHeight: descriptionHeight
       })
       .then(res=>{
-        document.getElementById("CancelarUpdate").click();
-        document.getElementById("nameBookUpdate").value = "";   
-        document.getElementById("descriptionBookUpdate").value = "";
-        document.getElementById("imageBookUpdate").value = ""; 
-        document.getElementById("nameImageToDeleteBeforeUpdateBook").innerHTML = "";      
+        CardUpdateReset();
           
         M.toast({html: 'Datos Actualizados Del Libro '+name, classes: 'rounded'});    
       }).catch(err=>{         
         console.log(err);    
     })  
-    } else {
+    }else{
       DeleteImage();
 
       firebase.firestore().collection(uid).doc(id).update({
         name: name,
-        description: description
+        description: description,
+        descriptionHeight: descriptionHeight
       })
       .then(res=>{
         
@@ -327,20 +493,29 @@ function UploadImageFromUpdateBook(e){
           })
         });
   
-        document.getElementById("CancelarUpdate").click();
-        document.getElementById("nameBookUpdate").value = "";   
-        document.getElementById("descriptionBookUpdate").value = "";
-        document.getElementById("imageBookUpdate").value = ""; 
-        document.getElementById("nameImageToDeleteBeforeUpdateBook").innerHTML = "";      
+        CardUpdateReset();
           
         M.toast({html: 'Datos Actualizados Del Libro '+name, classes: 'rounded'});    
-      }).catch(err=>{         
-        console.log(err);    
-    })  
-    }
+        }).catch(err=>{         
+          console.log(err);    
+      })  
+     }
+   }    
   }
+  function CardUpdateReset(){
+    document.getElementById("CancelarUpdate").click();    
+    document.getElementById("nameBookUpdate").value = "";   
+    document.getElementById("descriptionBookUpdate").value = "";   
+    document.getElementById("descriptionBookUpdate").style.height = "20px";
+  
+    document.getElementById("imageBookPreviewUpdate").src = '';  
+    document.getElementById("imageBookUpdate").value = '';  
+  
+    document.getElementById('modalScrollUpdate').scrollTop = 0;
+    document.getElementById('tabActiveUpdate').click();  
+  }  
 
-//Función elimimnar image
+//Función elimimnar SOLO imagen
 function DeleteImage(){
   nameImageToDeleteBeforeUpdateBook = document.getElementById("nameImageToDeleteBeforeUpdateBook").innerHTML;
 
@@ -371,8 +546,6 @@ function DeleteImage(){
           }
 
 }
-
-
 
 
 //DELETE: Traer datos para eliminar mediante id
@@ -427,3 +600,83 @@ function Delete(){
       console.log("Error, no  se pudo eliminar el documento");
   })  
 }
+
+
+function AddToFavorite(id){
+  
+  uid = document.getElementById("uid").innerHTML;    
+
+  firebase.firestore().collection(uid).doc(id).get()
+  .then(doc => {    
+       favoriteValue = doc.data().favorite;  
+       
+       if(favoriteValue == "No"){
+        firebase.firestore().collection(uid).doc(id).update({
+          favorite: "Si",
+        })
+        .then(res=>{              
+          M.toast({html: 'Se ha agregado a tu lista de favoritos', classes: 'rounded'});    
+        }).catch(err=>{         
+          console.log(err);    
+      })  
+      }else{
+        firebase.firestore().collection(uid).doc(id).update({
+          favorite: "No",
+        })
+        .then(res=>{              
+          M.toast({html: 'Se ha quitado de tu lista de favoritos', classes: 'rounded'});
+        }).catch(err=>{         
+          console.log(err);    
+      })  
+      }         
+
+  })
+  .catch(err => {
+    console.log('hola, el error es', err);
+  });
+  
+}
+
+
+
+
+
+
+// firebase.firestore().collection(uid).doc(id).update({
+//   name: name,
+//   description: description,
+//   descriptionHeight: descriptionHeight
+// })
+// .then(res=>{
+  
+//   uid = document.getElementById("uid").innerHTML;
+//   id = document.getElementById("idBookUpdate").value;        
+//   image = document.getElementById("imageBookUpdate").files[0];   
+//   date = new Date();               
+  
+//   var storageRef = firebase.storage().ref("Users/"+ uid +"/BookCovers/"+ date + image.name);
+//   var uploadImage = storageRef.put(image);
+  
+//     uploadImage.on("state_changed", ()=>{}, (err)=>{console.log(err)}, ()=>{
+//     uploadImage.snapshot.ref.getDownloadURL().then(url=>{
+  
+//     firebase.firestore().collection(uid).doc(id).update({
+//       photoURL: url,
+//       photoName: date + image.name
+//     }).then(res=>{
+//       console.log("Se ha actualizado el libro")
+//     }).catch(err=>{
+//       console.log(err)
+//     })       
+  
+//     }).catch(err=>{
+//       console.log(err)
+//     })
+//   });
+
+//   CardUpdateReset();
+    
+//   M.toast({html: 'Datos Actualizados Del Libro '+name, classes: 'rounded'});    
+//   }).catch(err=>{         
+//     console.log(err);    
+// })  

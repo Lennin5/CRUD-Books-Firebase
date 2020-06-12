@@ -14,51 +14,169 @@
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-storage.js"></script>
   
 </head>
-<body background="data:image/jpeg;base64,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">
+<body>
+
+  <p id="uid" hidden></p>
 
 
-
-
-    <nav class="grey darken-2">
-    <div class="nav-wrapper">                     
-      <a href="#" class="brand-logo right" id="User">Cargando metadatos...</a>      
-      <ul id="nav-mobile" class="left hide-on-med-and-down">          
-        <li><a href="./Logged.html">Inicio</a></li>
-        <li><a href="./tipoLibro.html">Tipo Libro</a></li>
-        <li><a href="./libro.html">Libro</a></li>
-        <li><a href="./misPrestamos.html">Mis Prestamos</a></li>
-        <li><a href="#" onclick="LogOut()">Salir</a></li>        
+<div class="navbar-fixed">  
+  <nav class="nav-cl hamburger-menu-background">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Blocked Book</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a class="waves-effect waves-light radius btn cl-btn-light" href="./Logged.html"><i class="material-icons left">home</i>Inicio</a></li>
+        <li><a class="waves-effect waves-light radius btn cl-btn-light" href="./tipoLibro.html"><i class="material-icons left">book</i>Tipo Libro</a></li>
+        <li><a class="waves-effect waves-light radius btn cl-btn-light" href="./Prestamos.html"><i class="material-icons left">event_note</i>Prestamos</a></li>
+        <li><a class="waves-effect waves-light radius btn cl-btn-light" onclick="LogOut()"><i class="material-icons left">exit_to_app</i>Salir</a></li>        
       </ul>
     </div>
   </nav>  
+</div>
 
-  <div class="row containerProfile transparent">
-    <div class="col s12 m12">
-      <div class="card body-card-radius cardProfile">
-        <div class="card-image">
-          <img src="img/backgroung-image.jpg" class="image-radius">             
-          <div class="own"> 
-            <img src="https://www.stickpng.com/assets/images/585e4beacb11b227491c3399.png" id="ProfileUserImage">  
-            <center>
-              <b><span>User</span></b>
-            </center>             
-          </div>                          
+  <ul class="sidenav hamburger-menu-background" id="mobile-demo">    
+    <div class="center-align">   
+      <br>
+      <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" href="./Logged.html"><i class="tiny material-icons left">home</i>Inicio</a>
+      <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" href="./Prestamos.html"><i class="material-icons left">event_note</i>Prestamos</a>      
+      <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" href="./tipoLibro.html"><i class="material-icons left">book</i>Tipo Libro</a>      
+      <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" onclick="LogOut()"><i class="material-icons left">exit_to_app</i>Salir</a>     
+    </div>    
+  </ul>
+
+  <br>
+
+
+
+
+
+
+  <div class="row">
+    <div class="col s12 m12 l3">    
+
+
+          <div class="card body-card-radius">
+            <div class="card-image">
+              <img src="img/backgroung-image.jpg" class="image-radius">   
+              <div class="centrado"><h4 id="User" style="color: white;">Cargando...</h4></div>          
+              <div class="own"> 
+      
+                <div class="flexi">
+                  <img class="" id="ProfileUserImage" src="https://www.stickpng.com/assets/images/585e4beacb11b227491c3399.png">  
+                  <div>
+                    <!-- <a class="waves-effect waves-light btn">Nuevo</a> -->
+                  </div>
+                </div>                        
+                <!-- <center>
+                  <b><span>User</span></b>
+                </center>              -->
+              </div>                          
+            </div>
+            <div class="card-content">
+              <br>
+              <br>          
+              <br>   
+              <hr>       
+              <div class="right-align">
+                <a class="waves-effect waves-light radius btn cl-btn-adjust" href="./Logged.html"><i class="material-icons left">settings</i>Ajustes</a>
+                  </div>
+            </div>
+          </div>
+
+          <ul class="collapsible radius">
+            <li>
+              <div class="collapsible-header radius-top" onclick="ShowAdjust()"><i class="material-icons">settings</i>Ajustes</div>
+              <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            </li>
+
+          </ul>          
+   
+                     
+    </div>
+
+    <div class="col s12 m12 l9">
+      <h5 class="brand-logo left white-text"><i class="material-icons right">favorite</i>Libros Favoritos</h5>
+      <br>
+      <br>
+      <br>                
+        <div id="divFavoriteBooks" class="divFavoriteBooks">
+
+          <!-- <div class="container-image-favorite-book">
+            <img src="img/bg-night.jpg" style="width:100%; height: 100px;" class="image-favorite-card">
+            <div class="top-left">      
+              <div class="flex-favorite-card">
+                <div class=""></div>
+                  <a class="waves-effect waves-light circle-letter-favorite-book"><h4><b>
+                    <p class="letter-favorite-book white-text" style="font-family: Georgia, 'Times New Roman', Times, serif">
+                      D</p></b></h4></a>
+                </div>
+                <div class="name-letter-favorite-book">
+                  <div class="left-align">
+                    <h5>rácula</h5>                      
+                    <p></p>                           
+                  </div>
+                </div>
+              </div>                
+            </div>
+            <div class="top-right">
+              <div class="radius">
+                <i class="material-icons white-text favorite-icon-index" title="Quitar de mi lista de favoritos">favorite</i>
+              </div>          
+            </div>  -->
+
+          </div>
+
+          
+
         </div>
-        <div class="card-content">
-          <br>
-          <br>                    
-          <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                                    
+            </div>
+          </div>
+      
         </div>
-      </div>
+      </div>  
+
+          
+        
+
+
     </div>
   </div>
+    
+        
 
 
-  <div class="contenedor">
+
+
+
+
+  <!-- <div class="profileContent">
     <img src="img/backgroung-image.jpg" />
     <div class="texto-encima">Texto</div>
     <div class="centrado">Centrado</div>
   </div>
+
+
+	<div class="container-a4">
+		<ul class="caption-style-4">
+			<li>
+				<img src="img/backgroung-image.jpg"" alt="" >
+				<div class="caption">
+					<div class="blur"></div>
+					<div class="caption-text">
+						<h1>Amazing Caption</h1>
+						<p>Whatever It Is - Always Awesome</p>
+					</div>
+				</div>
+			</li>
+			<li>
+		</ul>
+	</div> -->
+  
+
+
+
+
 
 <script>
 	  // Your web app's Firebase configuration
@@ -85,9 +203,18 @@
     var providerData = user.providerData;
     console.log("Existe Usuario Activo");    
 
+      //Mostrar Registros De Los Libros FAVORITOS 
+  firebase.firestore().collection(uid).orderBy("timestamp", "desc").where("favorite", "==", "Si")
+  .onSnapshot(doc=>{         
+    listarLibrosFavoritos(doc);   
+  });
+
+
   } else {
   	window.location='../login-firebase/index.html';
     console.log("No Existe Usuario Activo");
+
+
   }
 
   //Traer Datos Del Usuario
@@ -95,6 +222,7 @@ var docRef = firebase.firestore().collection(uid).doc("UserData");
 docRef.get().then(function(doc) {
 if (doc.exists) {
     var user=doc.data();    
+    document.getElementById('uid').innerHTML = user.uid;
     document.getElementById('User').innerHTML = user.displayName;    
     document.getElementById('ProfileUserImage').src = user.photoURL
 } else {
@@ -113,6 +241,8 @@ console.log("Error getting document:", error);
   <!-- Materialize -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
   <script src="js/init.js"></script>
+
+  <script src="js/Logged.js"></script>
 </body>
 </html>
 

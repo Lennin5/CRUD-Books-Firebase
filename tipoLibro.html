@@ -17,32 +17,50 @@
   
 </head>
 <body>
+  <p id="uid" hidden></p>
 
-    <nav class="grey darken-2">
-    <div class="nav-wrapper">                  
-      <a href="#" class="brand-logo right" id="User">Logo</a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">          
-        <li><a href="./Logged.html">Inicio</a></li>
-        <li><a href="./tipoLibro.html">Tipo Libro</a></li>
-        <li><a href="./libro.html">Libro</a></li>
-        <li><a href="./misPrestamos.html">Mis Prestamos</a></li>
-        <li><a href="#" onclick="LogOut()">Salir</a></li>
-        <li><img src="https://www.stickpng.com/assets/images/585e4beacb11b227491c3399.png" id="ProfileUserImage" width="50" height="50"></li>
-      </ul>
-    </div>
-  </nav>  
+  <div class="navbar-fixed">  
+    <nav class="nav-cl hamburger-menu-background">
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">Blocked Book</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a class="waves-effect waves-light radius btn cl-btn-light" href="./Logged.html"><i class="material-icons left">home</i>Inicio</a></li>
+          <li><a class="waves-effect waves-light radius btn cl-btn-light" href="./tipoLibro.html"><i class="material-icons left">book</i>Tipo Libro</a></li>
+          <li><a class="waves-effect waves-light radius btn cl-btn-light" href="./Prestamos.html"><i class="material-icons left">event_note</i>Prestamos</a></li>
+          <li><a class="waves-effect waves-light radius btn cl-btn-light" onclick="LogOut()"><i class="material-icons left">exit_to_app</i>Salir</a></li>        
+        </ul>
+      </div>
+    </nav>  
+  </div>
+  
+    <ul class="sidenav hamburger-menu-background" id="mobile-demo">    
+      <div class="center-align">   
+        <br>
+        <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" href="./Logged.html"><i class="tiny material-icons left">home</i>Inicio</a>
+        <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" href="./Prestamos.html"><i class="material-icons left">event_note</i>Prestamos</a>      
+        <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" href="./tipoLibro.html"><i class="material-icons left">book</i>Tipo Libro</a>      
+        <a class="waves-effect waves-light radius btn cl-btn-light-hamburger-menu" onclick="LogOut()"><i class="material-icons left">exit_to_app</i>Salir</a>     
+      </div>    
+    </ul>
 <!-- FASE BETA DE UN BUSCADOR -->
 <!-- <input type="text" id="palabra">
 <button onclick="BuscarRegistro()">Buscar</button> -->
 
-<p id="uid"></p>
+
 <br>
-  <div class="">
-  <a class="waves-effect waves-light btn modal-trigger grey darken-2" href="#modal1">
+  <div class="left-align">
+  <a class="waves-effect waves-light btn modal-trigger btn cl-btn-light radius href="#modal1">
     <i class="material-icons left">add</i>Agregar</a>
-      <br>
-        <div id="divTipoLibro" class="container"></div>
+      <br>              
   </div>
+
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <div id="divTipoLibro" class=""></div>
+    </div>
+  </div>
+
   <!-- Modal Agregar Libro -->
   <div id="modal1" class="modal modal-fixed-footer radius">
     <div class="modal-content" id="modalScrollAdd">
@@ -73,7 +91,7 @@
               <ul class="tabs tabs-fixed-width tabs-transparent">
                 <li class="tab"><a class="active" id="tabActiveAdd" href="#testWithImage" style="border-radius: 20px 0px 0px 0px;">
                   <i class="material-icons prefix">image</i></a></li>
-                <li class="tab"><a href="#testWithoutImage" onclick="NotImage()" style="border-radius: 0px 20px 0px 0px;">
+                <li class="tab"><a href="#testWithoutImage" onclick="NotImageAdd()" style="border-radius: 0px 20px 0px 0px;">
                   <i class="material-icons prefix">not_interested</i></a></li>      
               </ul>
             </div>  
@@ -98,13 +116,13 @@
                 <br>        
               </div>                  
             </div>            
-       <button onclick="Hola()">Click Me!</button>
+       <!-- <button onclick="Hola()">Click Me!</button>
       <script>
         function Hola(){
         obFoto = document.getElementById("descriptionBookAdd").style.height;    
         alert(obFoto);
         }    
-      </script>              
+      </script>               -->
         </div>    
       </div>
       <a class="waves-effect waves-light btn grey darken-2 radius" onclick="AddBook()">
@@ -119,7 +137,7 @@
 
          <!-- Modal Editar Libro -->
   <div id="modalEdit" class="modal modal-fixed-footer radius">
-    <div class="modal-content">
+    <div class="modal-content" id="modalScrollUpdate">
       <h4>Editar Libro</h4>
  <div class="container">
    <div class="row">
@@ -154,9 +172,9 @@
         <!-- Header de Portada Libro -->
           <div class="card-tabs grey darken-2" style="border-radius: 20px 20px 0px 0px;">
             <ul class="tabs tabs-fixed-width tabs-transparent">
-              <li class="tab"><a class="active" href="#testWithImageUpdate" style="border-radius: 20px 0px 0px 0px;">
+              <li class="tab"><a class="active" id="tabActiveUpdate" href="#testWithImageUpdate" style="border-radius: 20px 0px 0px 0px;">
                 <i class="material-icons prefix">image</i></a></li>
-              <li class="tab"><a href="#testWithoutImageUpdate" onclick="NotImage()" style="border-radius: 0px 20px 0px 0px;">
+              <li class="tab"><a href="#testWithoutImageUpdate" onclick="NotImageUpdate()" style="border-radius: 0px 20px 0px 0px;">
                 <i class="material-icons prefix">not_interested</i></a></li>      
             </ul>
           </div>  
@@ -180,42 +198,39 @@
               </center>        
               <br>        
             </div>                  
-          </div> 
+          </div>  
 
-
-
-
-        <label style="color: white;">Imagen De Libro</label>
-        <img id="imageBookPreviewUpdate" width="200" height="200" class="BookPreview" />                      
-        <div class="flexImage">
-          <div>
-            <i class="material-icons prefix">image</i>
-          </div>
-          <div>              
-            <input type="file" accept="image/*" id="imageBookUpdate" onchange="UploadImageFromUpdateBook(this)">   
-          </div>
-        </div>    
-
-
+        <!-- BAKEND  -->
+        <div class="" id="Backend">
+        <label>Nombre de imagen a borar después de actualizar el libro si se cambia:</label>
         <p id="nameImageToDeleteBeforeUpdateBook"></p>
+
+        <label>URL de libro actual (Se modifica cuando el usuario cambia la imagen)
+              (Elimina la imagen anterior si se cambia la imagen)</label>
         <b><p id="URLActualBook"></p></b>
+
+        <label>URL fija de la imagen del libro A editar (Con esto se hace la comparación entre
+               la URL del libro actual)</label>
         <p id="URLFixedImageToCompareWithActualBook"></p>
+        </div>
+      <!-- END BAKEND  -->
+
       </div>
-      <!-- <button onclick="Hola()">Click Me!</button>
+      <button onclick="Hola()">Click Me!</button>
       <script>
         function Hola(){
         obFoto = document.getElementById("imageBookPreviewUpdate").src;    
         alert(obFoto);
         }    
-      </script> -->
-      <a class="waves-effect waves-light btn grey darken-2" onclick="UpdateBook()">
+      </script>
+      <a class="waves-effect waves-light btn grey darken-2 radius" onclick="UpdateBook()">
         <i class="material-icons left">done</i>Guardar Cambios</a>        
     </div>
   </div>        
   </div>      
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-gray btn-flat" id="CancelarUpdate">Cancelar</a>
+      <a href="#!" class="modal-close waves-effect waves-gray btn-flat" id="CancelarUpdate" onclick="CardUpdateReset()">Cancelar</a>
     </div>
   </div>  
   
@@ -249,6 +264,7 @@
       <a href="#!" class="modal-close waves-effect waves-gray btn-flat" id="CancelarDelete">Cancelar</a>
     </div>
   </div>  
+
 <script>
     // Your web app's Firebase configuration
   var firebaseConfig = {
@@ -273,49 +289,30 @@
     var uid = user.uid;
     var providerData = user.providerData;
     console.log("Existe Usuario Activo");
-    document.getElementById('uid').innerHTML = uid;
     
+    
+    // firebase.firestore().collection(uid).get()
+    // .then(function(querySnapshot) {
+    //     querySnapshot.forEach(function(doc) {
+    //       var tabla = document.getElementById('tablass').innerHTML;
+    //         // doc.data() is never undefined for query doc snapshots
+    //         console.log(doc.id, " => ", doc.data().name);
+    //         console.log(doc.id, " => ", doc.data().description);
+    //         var res = doc.data();
+    //         tabla.innerHTML+=`<p>`+doc.data().name+`</p>`
+    //     });
+    // })
+    // .catch(function(error) {
+    //     console.log("Error getting documents: ", error);
+    // });
+
   //Mostrar Registros De Los Libros
   firebase.firestore().collection(uid).orderBy("timestamp", "desc")
   .onSnapshot(res=>{
     listarTipoLibros(res);
   });  
-  function listarTipoLibros(res){    
-    var contenido = "<table>"
-            contenido+="<thead>"
-          contenido+="<tr>"
-              
-              contenido+="<th>Portada</th>"
-              contenido+="<th>Nombre</th>"
-              contenido+="<th>Descripcion</th>"
-              contenido+="<th>Acciones</th>"
-          contenido+="</tr>"
-        contenido+="</thead>"
 
-        contenido+="<tbody>"
-        res.forEach(rpta=>{
-          var fila=rpta.data();
-          contenido+="<tr>"
-            
-            contenido+="<td><img src='"+fila.photoURL+"' width='200' height='200' class='responsiveImage materialboxed radius'/></td>"
-            contenido+="<td>"+fila.name+"</td>"            
-            contenido+="<td>"+fila.description+"</td>"
-            contenido+="<td>"
-            //recordar que en las funciones le pasamos el ID para editar o eliminar registros
-            contenido+="<a class='waves-effect waves-light btn grey darken-2 modal-trigger' href='#modalEdit' onclick='Edit(\""+rpta.id+"\")'>"
-            contenido+="<i class='material-icons'>border_color</i></a>"
-            contenido+="<br>"
-            contenido+="<a class='waves-effect waves-light btn grey darken-2 modal-trigger' href='#modalAntiDelete' onclick='AntiDelete(\""+rpta.id+"\")'>"
-            contenido+="<i class='material-icons'>delete</i></a>"
-            contenido+="</td>"
-          contenido+="</tr>"
-          contenido+="<tr>"         
-        });
-        contenido+="</tbody>"
-      contenido+="</table>"    
-    document.getElementById("divTipoLibro").innerHTML = contenido;
-  }
-
+  
   } else {
     window.location='../login-firebase/index.html';    
     console.log("No Existe Usuario Activo");
@@ -326,8 +323,9 @@
 docRef.get().then(function(doc) {
 if (doc.exists) {
     var user=doc.data();    
-    document.getElementById('User').innerHTML = user.displayName;
-    document.getElementById('ProfileUserImage').src = user.photoURL
+    document.getElementById('uid').innerHTML = user.uid;
+    // document.getElementById('User').innerHTML = user.displayName;
+    document.getElementById('ProfileUserImage').src = user.photoURL;    
 } else {
     // doc.data() will be undefined in this case
     console.log("El documento no existe!");
@@ -337,16 +335,70 @@ console.log("Error getting document:", error);
 });
 
   });
-
-
-
-
-</script> 
+  </script> 
   <script src="js/app.js"></script>
   <!-- Materialize -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
   <script src="js/init.js"></script>
 
   <script src="js/tipoLibro.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+<!-- ININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLE -->
+
+
+    <!-- CARD -->      
+    <!-- <div class="div-base-9-1 col s12">
+
+      <div class="row">
+        <div class="col s12 m12 l12">
+          <div class="card radius">
+            <div class="card-image">
+              <img class="image-radius" src="https://lh3.googleusercontent.com/proxy/jur5-PieA9tOppeyAjOQbUIy_x51lvvgMgVv630fZ2iifqjPk2X7F8HdSyPega8_FV6aN4LTaZiiVINdC8wkIYG_-nv6jxT0p4fTYlyHCM5_-RS8m7TfMksYZMuQKviZk0stDnwTslEZB885ZegNUPuKsFdf">
+              <span class="card-title">Card Title</span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            </div>
+            <div class="card-content">
+              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            </div>
+          </div>
+        </div>
+      </div>    
+  
+    </div> 
+                   -->
+    <!-- NAVBAR -->
+    
+    <!-- <div class="div-base-9-2 col s2">
+        
+      <nav class="radius nab-bar">      
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">Logo</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="sass.html">Sass</a></li>
+            <li><a href="badges.html">Components</a></li>
+            <li><a href="collapsible.html">Javascript</a></li>
+            <li><a href="mobile.html">Mobile</a></li>
+          </ul>
+        </div>
+      </nav>
+    
+      <ul class="sidenav" id="mobile-demo">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">Javascript</a></li>
+        <li><a href="mobile.html">Mobile</a></li>
+      </ul>    
+  
+    </div> -->
+
+    <!-- ININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLEININTANGIBLE -->
